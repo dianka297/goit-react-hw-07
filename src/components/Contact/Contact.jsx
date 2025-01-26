@@ -1,28 +1,36 @@
-import { useDispatch } from 'react-redux';
-import css from './Contact.module.css';
-import { HiMiniUser, HiPhone } from 'react-icons/hi2';
-import { deleteContact } from '../../redux/contactsOps';
+import { FaUser, FaPhone } from "react-icons/fa";
+import css from "./Contact.module.css";
+import { useDispatch } from "react-redux";
+import { deleteContact } from "../../redux/contactsOps";
 
-export default function Contact({ contact }) {
-  const dispatch = useDispatch();
+const Contact = ({ contact: { id, name, number } }) => {
+	const dispatch = useDispatch();
+	const handleDelete = () => dispatch(deleteContact(id));
 
-  const handleDelete = () => dispatch(deleteContact(contact.id));
+	return (
+		<>
+			<p className={css.contactInfo}>
+				<FaUser style={{ marginRight: "0.5rem" }} />
+				{name}
+				<span>
+					<FaPhone
+						style={{
+							marginRight: "0.5rem",
+							transform: "rotate(90deg)",
+						}}
+					/>
+					{number}
+				</span>
+			</p>
+			<button
+				className={css.delete}
+				type="button"
+				onClick={() => handleDelete()}
+			>
+				Delete
+			</button>
+		</>
+	);
+};
 
-  return (
-    <>
-      <div className={css.contactInfo}>
-        <p className="text">
-          <HiMiniUser className={css.userIcon} />
-          {contact.name}
-        </p>
-        <p className="text">
-          <HiPhone className={css.userIcon} />
-          {contact.number}
-        </p>
-      </div>
-      <button type="button" onClick={handleDelete}>
-        Delete
-      </button>
-    </>
-  );
-}
+export default Contact;
